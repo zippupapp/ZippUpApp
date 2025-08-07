@@ -20,7 +20,8 @@
     "start:web": "cd web && npm run start",
     "prisma:generate": "cd lib && npx prisma generate",
     "prisma:migrate": "cd lib && npx prisma migrate dev",
-    "prisma:studio": "cd lib && npx prisma studio"
+    "prisma:studio": "cd lib && npx prisma studio",
+    "prisma:seed": "cd lib && node prisma/seed.js"
   },
   "keywords": [
     "on-demand",

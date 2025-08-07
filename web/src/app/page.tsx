@@ -11,6 +11,8 @@ import {
   Phone, 
   ShoppingCart, 
   Smartphone,
+  Settings,
+  MoreHorizontal,
   Search,
   MapPin,
   User,
@@ -23,6 +25,7 @@ const serviceCategories = [
     id: 'ride-moving',
     name: 'Ride & Moving',
     description: 'Transportation and moving services',
+    examples: ['Taxi', 'Delivery', 'Movers', 'etc'],
     icon: Car,
     color: 'bg-blue-500',
     priceRange: '$15-$50',
@@ -32,6 +35,7 @@ const serviceCategories = [
     id: 'personal-care',
     name: 'Personal Care',
     description: 'Hair, massage, beauty services',
+    examples: ['Haircut', 'Massage', 'Manicure', 'etc'],
     icon: Scissors,
     color: 'bg-pink-500',
     priceRange: '$25-$100',
@@ -41,6 +45,7 @@ const serviceCategories = [
     id: 'tech-services',
     name: 'Tech Services',
     description: 'Device repair & tech support',
+    examples: ['Phone Repair', 'Laptop Fix', 'IT Support', 'etc'],
     icon: Wrench,
     color: 'bg-green-500',
     priceRange: '$30-$150',
@@ -50,6 +55,7 @@ const serviceCategories = [
     id: 'construction',
     name: 'Construction',
     description: 'Builders, carpenters, contractors',
+    examples: ['Carpentry', 'Painting', 'Roofing', 'etc'],
     icon: Hammer,
     color: 'bg-orange-500',
     priceRange: '$50-$300',
@@ -59,15 +65,27 @@ const serviceCategories = [
     id: 'home-services',
     name: 'Home Services',
     description: 'Plumbers, cleaners, maintenance',
+    examples: ['Plumbing', 'Cleaning', 'Gardening', 'etc'],
     icon: Home,
     color: 'bg-purple-500',
     priceRange: '$40-$200',
     href: '/services/home-services'
   },
   {
+    id: 'automobile',
+    name: 'Automobile',
+    description: 'Car repair and maintenance',
+    examples: ['Mechanics', 'Vulcanizer', 'Car Wash', 'etc'],
+    icon: Settings,
+    color: 'bg-slate-500',
+    priceRange: '$30-$250',
+    href: '/services/automobile'
+  },
+  {
     id: 'emergency-services',
     name: 'Emergency Services',
     description: 'Ambulance, fire, roadside assistance',
+    examples: ['Ambulance', 'Fire Service', 'Roadside', 'etc'],
     icon: Phone,
     color: 'bg-red-500',
     priceRange: '$100-$500',
@@ -77,6 +95,7 @@ const serviceCategories = [
     id: 'marketplace',
     name: 'Marketplace',
     description: 'Buy and sell goods',
+    examples: ['Electronics', 'Fashion', 'Groceries', 'etc'],
     icon: ShoppingCart,
     color: 'bg-indigo-500',
     priceRange: '$5-$1000+',
@@ -86,10 +105,21 @@ const serviceCategories = [
     id: 'digital-services',
     name: 'Digital Services',
     description: 'Airtime, data, bill payments',
+    examples: ['Airtime', 'Data Plans', 'Bill Pay', 'etc'],
     icon: Smartphone,
     color: 'bg-teal-500',
     priceRange: '$1-$100',
     href: '/services/digital-services'
+  },
+  {
+    id: 'others',
+    name: 'Others',
+    description: 'Events, catering & general services',
+    examples: ['Events', 'Catering', 'General', 'etc'],
+    icon: MoreHorizontal,
+    color: 'bg-gray-500',
+    priceRange: '$20-$500',
+    href: '/services/others'
   }
 ]
 
@@ -189,7 +219,7 @@ export default function HomePage() {
             Choose Your Service
           </h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {serviceCategories.map((category) => {
               const IconComponent = category.icon
               return (
@@ -206,11 +236,32 @@ export default function HomePage() {
                     {category.name}
                   </h4>
                   
-                  <p className="text-gray-600 mb-3">
+                  <p className="text-gray-600 mb-3 text-sm">
                     {category.description}
                   </p>
                   
-                  <div className="text-sm font-medium text-zippup-600">
+                  {/* Service Examples */}
+                  <div className="mb-4 flex-grow">
+                    <div className="flex flex-wrap gap-1 text-xs">
+                      {category.examples.map((example, index) => {
+                        const isEtc = example === 'etc'
+                        const tagColor = isEtc 
+                          ? 'bg-gray-400' 
+                          : category.color.replace('-500', '-400')
+                        
+                        return (
+                          <span 
+                            key={index}
+                            className={`inline-block px-2 py-1 rounded-full text-white text-xs ${tagColor}`}
+                          >
+                            {example}
+                          </span>
+                        )
+                      })}
+                    </div>
+                  </div>
+                  
+                  <div className="text-sm font-medium text-zippup-600 mt-auto">
                     {category.priceRange}
                   </div>
                 </Link>

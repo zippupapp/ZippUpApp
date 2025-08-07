@@ -23,9 +23,11 @@ enum ServiceCategory {
   TECH_SERVICES
   CONSTRUCTION
   HOME_SERVICES
+  AUTOMOBILE
   EMERGENCY_SERVICES
   MARKETPLACE
   DIGITAL_SERVICES
+  OTHERS
 }
 
 enum BookingStatus {
@@ -440,6 +442,7 @@ model DigitalService {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
+  @@unique([name, category])
   @@map("digital_services")
 }
 

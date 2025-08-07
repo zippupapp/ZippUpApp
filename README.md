@@ -5,14 +5,16 @@ ZippUp is a comprehensive, cross-platform on-demand service platform similar to 
 ## 🚀 Features
 
 ### Core Services
-- **Ride & Moving Services** - Fixed price transportation and moving
-- **Personal Care** - Hair, massage, beauty services
-- **Tech Services** - Device repair and technical support
-- **Construction** - Builders, carpenters, contractors
-- **Home Services** - Plumbers, cleaners, maintenance
-- **Emergency Services** - Ambulance, fire, roadside assistance
-- **Marketplace** - Buy and sell goods with escrow system
-- **Digital Services** - Airtime, data, bill payments
+- **Ride & Moving Services** - Taxi, delivery, movers, etc
+- **Personal Care** - Haircut, massage, manicure, etc
+- **Tech Services** - Phone repair, laptop fix, IT support, etc
+- **Construction** - Carpentry, painting, roofing, etc
+- **Home Services** - Plumbing, cleaning, gardening, etc
+- **Automobile** - Mechanics, vulcanizer, car wash, etc
+- **Emergency Services** - Ambulance, fire service, roadside, etc
+- **Marketplace** - Electronics, fashion, groceries, etc
+- **Digital Services** - Airtime, data plans, bill pay, etc
+- **Others** - Events, catering, general services, etc
 
 ### Key Features
 - 🤖 **AI-Powered Search** - Natural language intent detection
