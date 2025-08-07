@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="16" fill="#2563EB"/>
+  
+  <!-- Lightning bolt -->
+  <path d="M13 6L10 16H14L12 26L22 16H18L21 6H13Z" fill="#FFFFFF"/>
+  
+  <!-- Upward arrow -->
+  <path d="M22 10L24 8L26 10M24 8V14" stroke="#FFD700" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Emergency dot -->
+  <circle cx="26" cy="6" r="3" fill="#EF4444"/>
+</svg>

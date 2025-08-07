@@ -19,6 +19,7 @@ import {
   Bell
 } from 'lucide-react'
 import EmergencyButton from '@/components/emergency/EmergencyButton'
+import AISearchBar from '@/components/search/AISearchBar'
 
 const serviceCategories = [
   {
@@ -124,7 +125,6 @@ const serviceCategories = [
 ]
 
 export default function HomePage() {
-  const [searchQuery, setSearchQuery] = useState('')
   const [userLocation, setUserLocation] = useState<string>('Getting location...')
 
   useEffect(() => {
@@ -141,14 +141,6 @@ export default function HomePage() {
       )
     }
   }, [])
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (searchQuery.trim()) {
-      // Navigate to search results
-      window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`
-    }
-  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -191,24 +183,7 @@ export default function HomePage() {
           </p>
           
           {/* AI-Powered Search */}
-          <form onSubmit={handleSearch} className="max-w-2xl mx-auto">
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="What do you need? (e.g., 'fix my tap', 'haircut', 'ride to airport')"
-                className="w-full pl-12 pr-4 py-4 text-lg rounded-full border-0 text-gray-900 placeholder-gray-500 focus:ring-4 focus:ring-white/20"
-              />
-              <button
-                type="submit"
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-zippup-600 text-white px-6 py-2 rounded-full hover:bg-zippup-700 transition-colors"
-              >
-                Search
-              </button>
-            </div>
-          </form>
+          <AISearchBar />
         </div>
       </section>
 

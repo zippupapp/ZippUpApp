@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bgGradient" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#60A5FA;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1D4ED8;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  
+  <circle cx="96" cy="96" r="96" fill="url(#bgGradient)"/>
+  
+  <!-- Main lightning bolt -->
+  <path d="M78 36L60 96H84L72 156L132 96H108L126 36H78Z" fill="#FFFFFF"/>
+  
+  <!-- Upward arrow -->
+  <path d="M132 60L144 48L156 60M144 48V84" stroke="#FFD700" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- "Z" accent -->
+  <path d="M24 24H48L24 48H48" stroke="#FFD700" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Emergency symbol -->
+  <circle cx="156" cy="36" r="12" fill="#EF4444"/>
+  <path d="M150 36H162M156 30V42" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+</svg>

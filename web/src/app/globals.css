@@ -2,6 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ZippUp Brand Colors */
+:root {
+  --zippup-50: #eff6ff;
+  --zippup-100: #dbeafe;
+  --zippup-200: #bfdbfe;
+  --zippup-300: #93c5fd;
+  --zippup-400: #60a5fa;
+  --zippup-500: #3b82f6;
+  --zippup-600: #2563eb;
+  --zippup-700: #1d4ed8;
+  --zippup-800: #1e40af;
+  --zippup-900: #1e3a8a;
+}
+
+.text-zippup-600 {
+  color: var(--zippup-600);
+}
+
+.bg-zippup-500 {
+  background-color: var(--zippup-500);
+}
+
+.bg-zippup-600 {
+  background-color: var(--zippup-600);
+}
+
+.hover\\:bg-zippup-600:hover {
+  background-color: var(--zippup-600);
+}
+
+.hover\\:bg-zippup-700:hover {
+  background-color: var(--zippup-700);
+}
+
+.focus\\:ring-zippup-500:focus {
+  --tw-ring-color: var(--zippup-500);
+}
+
+.focus\\:border-zippup-500:focus {
+  border-color: var(--zippup-500);
+}
+
+.border-zippup-500 {
+  border-color: var(--zippup-500);
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
