@@ -1,0 +1,43 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "web/package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/web/src/app/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/web/$1"
+    }
+  ],
+  "env": {
+    "DATABASE_URL": "@database-url",
+    "JWT_SECRET": "@jwt-secret",
+    "TWILIO_ACCOUNT_SID": "@twilio-account-sid",
+    "TWILIO_AUTH_TOKEN": "@twilio-auth-token",
+    "STRIPE_SECRET_KEY": "@stripe-secret-key",
+    "OPENAI_API_KEY": "@openai-api-key",
+    "GOOGLE_MAPS_API_KEY": "@google-maps-api-key"
+  },
+  "functions": {
+    "web/src/app/api/**/*.ts": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/cron/cleanup-expired-alerts",
+      "schedule": "0 */1 * * *"
+    },
+    {
+      "path": "/api/cron/process-pending-payments",
+      "schedule": "*/5 * * * *"
+    }
+  ]
+}
