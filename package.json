@@ -1,0 +1,37 @@
+{
+  "name": "zippup-platform",
+  "version": "1.0.0",
+  "description": "ZippUp - On-demand service super app platform",
+  "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "web",
+    "api",
+    "lib"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:web\" \"npm run dev:api\"",
+    "dev:web": "cd web && npm run dev",
+    "dev:api": "cd api && npm run dev",
+    "build": "npm run build:web && npm run build:api",
+    "build:web": "cd web && npm run build",
+    "build:api": "cd api && npm run build",
+    "start": "npm run start:web",
+    "start:web": "cd web && npm run start",
+    "prisma:generate": "cd lib && npx prisma generate",
+    "prisma:migrate": "cd lib && npx prisma migrate dev",
+    "prisma:studio": "cd lib && npx prisma studio"
+  },
+  "keywords": [
+    "on-demand",
+    "service-platform",
+    "super-app",
+    "emergency-services",
+    "marketplace"
+  ],
+  "author": "ZippUp Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

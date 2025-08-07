@@ -1,0 +1,467 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CUSTOMER
+  PROVIDER
+  VENDOR
+  ADMIN
+}
+
+enum ServiceCategory {
+  RIDE_MOVING
+  PERSONAL_CARE
+  TECH_SERVICES
+  CONSTRUCTION
+  HOME_SERVICES
+  EMERGENCY_SERVICES
+  MARKETPLACE
+  DIGITAL_SERVICES
+}
+
+enum BookingStatus {
+  PENDING
+  ACCEPTED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  DISPUTED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  REFUNDED
+  ESCROWED
+  RELEASED
+}
+
+enum UrgencyLevel {
+  NORMAL
+  URGENT
+  EMERGENCY
+}
+
+enum TransactionType {
+  TOP_UP
+  PAYMENT
+  COMMISSION
+  REFUND
+  WITHDRAWAL
+}
+
+enum EmergencyStatus {
+  ACTIVE
+  RESOLVED
+  FALSE_ALARM
+}
+
+enum DisputeStatus {
+  OPEN
+  IN_REVIEW
+  RESOLVED
+  CLOSED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  phone     String   @unique
+  name      String
+  avatar    String?
+  role      UserRole @default(CUSTOMER)
+  isActive  Boolean  @default(true)
+  isVerified Boolean @default(false)
+  
+  // Location data
+  latitude  Float?
+  longitude Float?
+  address   String?
+  city      String?
+  state     String?
+  country   String   @default("US")
+  
+  // Emergency contacts
+  emergencyContacts Json? // Array of {name, phone, relationship}
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  wallet            Wallet?
+  providerProfile   Provider?
+  vendorProfile     Vendor?
+  bookingsAsCustomer Booking[] @relation("CustomerBookings")
+  bookingsAsProvider Booking[] @relation("ProviderBookings")
+  reviews           Review[]
+  emergencyAlerts   EmergencyAlert[]
+  transactions      Transaction[]
+  messages          Message[]
+  notifications     Notification[]
+  ordersAsCustomer  Order[] @relation("CustomerOrders")
+  
+  @@map("users")
+}
+
+model Wallet {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  balance   Float    @default(0)
+  currency  String   @default("USD")
+  isBlocked Boolean  @default(false)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+  
+  @@map("wallets")
+}
+
+model Provider {
+  id           String        @id @default(cuid())
+  userId       String        @unique
+  serviceTypes ServiceCategory[]
+  bio          String?
+  experience   String?
+  availability Json? // {days: [], hours: {start, end}}
+  license      String? // File URL
+  isVerified   Boolean       @default(false)
+  rating       Float?
+  totalJobs    Int           @default(0)
+  
+  // Service area
+  serviceRadius Float         @default(10) // km
+  baseRate     Float?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookings Booking[] @relation("ProviderBookings")
+  reviews  Review[]  @relation("ProviderReviews")
+  
+  @@map("providers")
+}
+
+model Vendor {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  businessName String
+  description String?
+  logo        String? // File URL
+  isVerified  Boolean  @default(false)
+  rating      Float?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  products Product[]
+  orders   Order[]
+  
+  @@map("vendors")
+}
+
+model Service {
+  id          String          @id @default(cuid())
+  name        String
+  description String
+  category    ServiceCategory
+  icon        String?
+  basePrice   Float
+  priceRange  Json? // {min, max}
+  duration    Int? // minutes
+  isActive    Boolean         @default(true)
+  country     String          @default("US")
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  bookings Booking[]
+  
+  @@map("services")
+}
+
+model Booking {
+  id           String        @id @default(cuid())
+  customerId   String
+  providerId   String?
+  serviceId    String
+  
+  // Location data
+  pickupLat    Float?
+  pickupLng    Float?
+  pickupAddress String?
+  dropoffLat   Float?
+  dropoffLng   Float?
+  dropoffAddress String?
+  
+  // Booking details
+  description  String?
+  scheduledFor DateTime?
+  urgency      UrgencyLevel  @default(NORMAL)
+  status       BookingStatus @default(PENDING)
+  paymentStatus PaymentStatus @default(PENDING)
+  
+  // Pricing
+  estimatedPrice Float?
+  finalPrice     Float?
+  commission     Float?
+  
+  // Timestamps
+  acceptedAt   DateTime?
+  startedAt    DateTime?
+  completedAt  DateTime?
+  cancelledAt  DateTime?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  customer User    @relation("CustomerBookings", fields: [customerId], references: [id])
+  provider User?   @relation("ProviderBookings", fields: [providerId], references: [id])
+  service  Service @relation(fields: [serviceId], references: [id])
+  
+  reviews      Review[]
+  transactions Transaction[]
+  messages     Message[]
+  disputes     Dispute[]
+  
+  @@map("bookings")
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  vendorId    String
+  name        String
+  description String
+  price       Float
+  images      String[] // Array of image URLs
+  stock       Int      @default(0)
+  category    String
+  tags        String[]
+  isActive    Boolean  @default(true)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  vendor    Vendor      @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  orderItems OrderItem[]
+  
+  @@map("products")
+}
+
+model Order {
+  id            String        @id @default(cuid())
+  customerId    String
+  vendorId      String
+  totalAmount   Float
+  status        BookingStatus @default(PENDING)
+  paymentStatus PaymentStatus @default(PENDING)
+  
+  // Delivery info
+  deliveryAddress String
+  deliveryLat     Float?
+  deliveryLng     Float?
+  deliveryMethod  String @default("DELIVERY") // DELIVERY, PICKUP
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  customer User        @relation("CustomerOrders", fields: [customerId], references: [id])
+  vendor   Vendor      @relation(fields: [vendorId], references: [id])
+  items    OrderItem[]
+  disputes Dispute[]
+  
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String @id @default(cuid())
+  orderId   String
+  productId String
+  quantity  Int
+  price     Float
+  
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+  
+  @@map("order_items")
+}
+
+model Review {
+  id         String @id @default(cuid())
+  userId     String
+  bookingId  String?
+  providerId String?
+  rating     Int    @constraint(rating >= 1 && rating <= 5)
+  comment    String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user     User     @relation(fields: [userId], references: [id])
+  booking  Booking? @relation(fields: [bookingId], references: [id])
+  provider Provider? @relation("ProviderReviews", fields: [providerId], references: [id])
+  
+  @@map("reviews")
+}
+
+model Transaction {
+  id            String          @id @default(cuid())
+  userId        String
+  walletId      String
+  bookingId     String?
+  type          TransactionType
+  amount        Float
+  currency      String          @default("USD")
+  description   String
+  reference     String? // External payment reference
+  status        PaymentStatus   @default(PENDING)
+  
+  // Payment gateway info
+  gateway       String? // stripe, flutterwave, paystack, etc.
+  gatewayTxId   String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user    User     @relation(fields: [userId], references: [id])
+  wallet  Wallet   @relation(fields: [walletId], references: [id])
+  booking Booking? @relation(fields: [bookingId], references: [id])
+  
+  @@map("transactions")
+}
+
+model EmergencyAlert {
+  id         String          @id @default(cuid())
+  userId     String
+  latitude   Float
+  longitude  Float
+  address    String?
+  status     EmergencyStatus @default(ACTIVE)
+  message    String?
+  
+  // Tracking data
+  trackingStarted DateTime @default(now())
+  trackingEnded   DateTime?
+  locationHistory Json[] // Array of {lat, lng, timestamp}
+  
+  // Notifications sent
+  contactsNotified Json[] // Array of contact info notified
+  authoritiesNotified Boolean @default(false)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user User @relation(fields: [userId], references: [id])
+  
+  @@map("emergency_alerts")
+}
+
+model Message {
+  id         String   @id @default(cuid())
+  senderId   String
+  bookingId  String
+  content    String
+  type       String   @default("text") // text, image, location
+  isRead     Boolean  @default(false)
+  
+  createdAt DateTime @default(now())
+  
+  sender  User    @relation(fields: [senderId], references: [id])
+  booking Booking @relation(fields: [bookingId], references: [id])
+  
+  @@map("messages")
+}
+
+model Notification {
+  id      String  @id @default(cuid())
+  userId  String
+  title   String
+  message String
+  type    String // booking, payment, emergency, etc.
+  data    Json? // Additional data
+  isRead  Boolean @default(false)
+  
+  createdAt DateTime @default(now())
+  
+  user User @relation(fields: [userId], references: [id])
+  
+  @@map("notifications")
+}
+
+model Dispute {
+  id          String        @id @default(cuid())
+  bookingId   String?
+  orderId     String?
+  reporterId  String
+  reason      String
+  description String
+  status      DisputeStatus @default(OPEN)
+  resolution  String?
+  resolvedBy  String? // Admin user ID
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  resolvedAt DateTime?
+  
+  booking Booking? @relation(fields: [bookingId], references: [id])
+  order   Order?   @relation(fields: [orderId], references: [id])
+  
+  @@map("disputes")
+}
+
+model DigitalService {
+  id          String  @id @default(cuid())
+  name        String
+  category    String // airtime, data, bills
+  provider    String // MTN, Airtel, DSTV, etc.
+  country     String
+  isActive    Boolean @default(true)
+  commission  Float   @default(0.05) // 5%
+  
+  // Service specific data
+  denominations Json? // Available amounts/packages
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("digital_services")
+}
+
+model OtpVerification {
+  id         String   @id @default(cuid())
+  identifier String   // phone or email
+  otp        String   // hashed OTP
+  type       String   // 'phone' or 'email'
+  expiresAt  DateTime
+  
+  createdAt DateTime @default(now())
+  
+  @@map("otp_verifications")
+}
+
+model TempUser {
+  id         String   @id @default(cuid())
+  email      String?
+  phone      String?
+  name       String
+  method     String   // 'phone' or 'email'
+  identifier String   // the phone or email used for verification
+  
+  createdAt DateTime @default(now())
+  expiresAt DateTime @default(dbgenerated("NOW() + INTERVAL '1 hour'"))
+  
+  @@map("temp_users")
+}
