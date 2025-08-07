@@ -131,11 +131,24 @@ export async function POST(request: NextRequest) {
 
 async function reverseGeocode(lat: number, lng: number): Promise<string> {
   try {
-    // In production, use Google Maps Geocoding API or similar
-    // For now, return a placeholder
-    return `Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}`
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.GOOGLE_MAPS_API_KEY}`
+    )
+    
+    if (!response.ok) {
+      throw new Error('Geocoding API request failed')
+    }
+    
+    const data = await response.json()
+    
+    if (data.status === 'OK' && data.results?.[0]) {
+      return data.results[0].formatted_address
+    } else {
+      throw new Error(`Geocoding failed: ${data.status}`)
+    }
   } catch (error) {
-    return `Location: ${lat}, ${lng}`
+    console.error('Reverse geocoding error:', error)
+    return `${lat.toFixed(6)}, ${lng.toFixed(6)}`
   }
 }
 

@@ -43,6 +43,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "react-map-gl": "^7.1.7",
     "mapbox-gl": "^3.0.1",
+    "@googlemaps/js-api-loader": "^1.16.2",
     "@google-cloud/storage": "^7.7.0",
     "react-hot-toast": "^2.4.1",
     "date-fns": "^3.0.6",
