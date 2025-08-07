@@ -34,8 +34,13 @@ cp web/.env.local.example web/.env.local
 
 Your `.env.local` already includes:
 ```env
+# Google Maps (configured)
 GOOGLE_MAPS_API_KEY="AIzaSyD6IF-c6Ce0iSpEDITpaUGJ20y7_ZZxHl0"
 NEXT_PUBLIC_GOOGLE_MAPS_API_KEY="AIzaSyD6IF-c6Ce0iSpEDITpaUGJ20y7_ZZxHl0"
+
+# Stripe Payments (configured)
+STRIPE_PUBLISHABLE_KEY="pk_test_51RsMiZGMO6NwkYaMOEK0rl7KZXpKnYGJYTvXl2iycbSWj0biC7zD51ODQvlfAM1yWCKICPWUhNSs8dunOWxPdhuA00VyFwvHjd"
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_51RsMiZGMO6NwkYaMOEK0rl7KZXpKnYGJYTvXl2iycbSWj0biC7zD51ODQvlfAM1yWCKICPWUhNSs8dunOWxPdhuA00VyFwvHjd"
 ```
 
 ### 3. Database Setup
@@ -83,6 +88,8 @@ flutter run
 - **Real-time location tracking**
 - **User authentication** (phone/email OTP)
 - **Google Maps integration** (already configured!)
+- **Stripe payment processing** (test mode ready!)
+- **Wallet system** with top-up functionality
 - **Database structure** for all features
 - **Mobile app foundation**
 

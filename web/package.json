@@ -45,6 +45,8 @@
     "mapbox-gl": "^3.0.1",
     "@googlemaps/js-api-loader": "^1.16.2",
     "@google-cloud/storage": "^7.7.0",
+    "@stripe/stripe-js": "^2.2.0",
+    "@stripe/react-stripe-js": "^2.4.0",
     "react-hot-toast": "^2.4.1",
     "date-fns": "^3.0.6",
     "recharts": "^2.8.0"
