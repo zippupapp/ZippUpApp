@@ -1,0 +1,77 @@
+{
+  "name": "ZippUp - On-Demand Services Platform",
+  "short_name": "ZippUp",
+  "description": "Lightning-fast on-demand services with emergency support, marketplace, and digital utilities",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563EB",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-US",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512x512.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Emergency Alert",
+      "short_name": "Emergency",
+      "description": "Quick access to emergency services",
+      "url": "/?emergency=true",
+      "icons": [
+        {
+          "src": "/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Marketplace",
+      "short_name": "Shop",
+      "description": "Browse and buy products",
+      "url": "/marketplace",
+      "icons": [
+        {
+          "src": "/icon-192x192.png", 
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Digital Services",
+      "short_name": "Digital",
+      "description": "Buy airtime, data, pay bills",
+      "url": "/digital",
+      "icons": [
+        {
+          "src": "/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
