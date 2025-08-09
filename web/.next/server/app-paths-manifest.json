@@ -1,0 +1,14 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/auth/register/route": "app/api/auth/register/route.js",
+  "/api/emergency/alert/route": "app/api/emergency/alert/route.js",
+  "/api/emergency/track/[alertId]/route": "app/api/emergency/track/[alertId]/route.js",
+  "/api/payments/create-intent/route": "app/api/payments/create-intent/route.js",
+  "/api/search/route": "app/api/search/route.js",
+  "/api/search/suggestions/route": "app/api/search/suggestions/route.js",
+  "/api/wallet/[userId]/route": "app/api/wallet/[userId]/route.js",
+  "/api/wallet/[userId]/transactions/route": "app/api/wallet/[userId]/transactions/route.js",
+  "/api/webhooks/stripe/route": "app/api/webhooks/stripe/route.js",
+  "/emergency/track/[alertId]/page": "app/emergency/track/[alertId]/page.js",
+  "/page": "app/page.js"
+}

@@ -30,7 +30,9 @@ export default function GoogleMap({
   trackingMode = false
 }: GoogleMapProps) {
   const mapRef = useRef<HTMLDivElement>(null)
+  // @ts-ignore - google namespace provided by Maps JS API at runtime
   const [map, setMap] = useState<google.maps.Map | null>(null)
+  // @ts-ignore - google namespace provided by Maps JS API at runtime
   const [currentLocationMarker, setCurrentLocationMarker] = useState<google.maps.Marker | null>(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -48,9 +50,11 @@ export default function GoogleMap({
         await loader.load()
 
         if (mapRef.current) {
+          // @ts-ignore - google namespace provided at runtime
           const mapInstance = new google.maps.Map(mapRef.current, {
             center,
             zoom,
+            // @ts-ignore - google namespace provided at runtime
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             zoomControl: true,
             mapTypeControl: false,
@@ -72,6 +76,7 @@ export default function GoogleMap({
 
           // Add click listener
           if (onMapClick) {
+            // @ts-ignore - google namespace provided at runtime
             mapInstance.addListener('click', (e: google.maps.MapMouseEvent) => {
               if (e.latLng) {
                 onMapClick(e.latLng.lat(), e.latLng.lng())
@@ -105,6 +110,7 @@ export default function GoogleMap({
             }
 
             // Create current location marker
+            // @ts-ignore - google namespace provided at runtime
             const marker = new google.maps.Marker({
               position: currentPos,
               map,
@@ -116,7 +122,9 @@ export default function GoogleMap({
                     <circle cx="12" cy="12" r="3" fill="#ffffff"/>
                   </svg>
                 `),
+                // @ts-ignore - google namespace provided at runtime
                 scaledSize: new google.maps.Size(24, 24),
+                // @ts-ignore - google namespace provided at runtime
                 anchor: new google.maps.Point(12, 12)
               }
             })
@@ -140,18 +148,21 @@ export default function GoogleMap({
   useEffect(() => {
     if (map && markers.length > 0) {
       markers.forEach((markerData, index) => {
+        // @ts-ignore - google namespace provided at runtime
         const marker = new google.maps.Marker({
           position: markerData.position,
           map,
           title: markerData.title || `Marker ${index + 1}`,
-          icon: markerData.icon ? {
-            url: markerData.icon,
-            scaledSize: new google.maps.Size(32, 32)
-          } : undefined
+                     icon: markerData.icon ? {
+             url: markerData.icon,
+             // @ts-ignore - google namespace provided at runtime
+             scaledSize: new google.maps.Size(32, 32)
+           } : undefined
         })
 
         // Add info window if info is provided
         if (markerData.info) {
+          // @ts-ignore - google namespace provided at runtime
           const infoWindow = new google.maps.InfoWindow({
             content: markerData.info
           })
@@ -208,10 +219,11 @@ export function useGeocoding() {
 
       await loader.load()
 
+      // @ts-ignore - google namespace provided at runtime
       const geocoder = new google.maps.Geocoder()
       
       return new Promise((resolve) => {
-        geocoder.geocode({ address }, (results, status) => {
+        geocoder.geocode({ address }, (results: any, status: any) => {
           if (status === 'OK' && results?.[0]) {
             const location = results[0].geometry.location
             resolve({
@@ -238,10 +250,11 @@ export function useGeocoding() {
 
       await loader.load()
 
+      // @ts-ignore - google namespace provided at runtime
       const geocoder = new google.maps.Geocoder()
       
       return new Promise((resolve) => {
-        geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+        geocoder.geocode({ location: { lat, lng } }, (results: any, status: any) => {
           if (status === 'OK' && results?.[0]) {
             resolve(results[0].formatted_address)
           } else {

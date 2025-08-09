@@ -19,8 +19,9 @@ export async function POST(request: NextRequest) {
     try {
       validatePaymentAmount(amount)
     } catch (error) {
+      const message = error instanceof Error ? error.message : 'Invalid amount'
       return NextResponse.json(
-        { error: error.message },
+        { error: message },
         { status: 400 }
       )
     }
@@ -162,8 +163,8 @@ export async function POST(request: NextRequest) {
       clientSecret: paymentIntent.clientSecret,
       paymentIntentId: paymentIntent.paymentIntentId,
       amount: paymentIntent.amount,
-      commission: paymentIntent.commission,
-      providerAmount: paymentIntent.providerAmount || paymentIntent.vendorAmount
+      commission: (paymentIntent as any).commission,
+      providerAmount: (paymentIntent as any).providerAmount || (paymentIntent as any).vendorAmount
     })
 
   } catch (error) {

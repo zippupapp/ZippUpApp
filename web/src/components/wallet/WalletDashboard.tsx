@@ -143,7 +143,8 @@ function WalletContent({ userId }: WalletDashboardProps) {
       }
     } catch (error) {
       console.error('Top-up failed:', error)
-      alert(`Top-up failed: ${error.message}`)
+      const message = error instanceof Error ? error.message : 'Unknown error'
+      alert(`Top-up failed: ${message}`)
     } finally {
       setProcessing(false)
     }

@@ -6,16 +6,13 @@
   "private": true,
   "workspaces": [
     "web",
-    "api",
     "lib"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev:web\" \"npm run dev:api\"",
+    "dev": "npm run dev:web",
     "dev:web": "cd web && npm run dev",
-    "dev:api": "cd api && npm run dev",
-    "build": "npm run build:web && npm run build:api",
+    "build": "npm run build:web",
     "build:web": "cd web && npm run build",
-    "build:api": "cd api && npm run build",
     "start": "npm run start:web",
     "start:web": "cd web && npm run start",
     "prisma:generate": "cd lib && npx prisma generate",
@@ -34,5 +31,6 @@
   "license": "MIT",
   "devDependencies": {
     "concurrently": "^8.2.2"
-  }
+  },
+  "packageManager": "pnpm@9.12.0+sha512.4abf725084d7bcbafbd728bfc7bee61f2f791f977fd87542b3579dcb23504d170d46337945e4c66485cd12d588a0c0e570ed9c477e7ccdd8507cf05f3f92eaca"
 }

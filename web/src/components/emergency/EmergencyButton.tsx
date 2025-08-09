@@ -50,8 +50,15 @@ export default function EmergencyButton({ className = '' }: EmergencyButtonProps
         // Show emergency active state
         setShowConfirmation(false)
         
-        // Redirect to emergency tracking page
-        window.location.href = '/emergency/active'
+        // Redirect to emergency tracking page returned by API
+        const data = await response.json()
+        if (data.trackingUrl) {
+          window.location.href = data.trackingUrl
+        } else if (data.alertId) {
+          window.location.href = `/emergency/track/${data.alertId}`
+        } else {
+          window.location.href = '/'
+        }
       } else {
         throw new Error('Failed to send emergency alert')
       }

@@ -309,7 +309,7 @@ model Review {
   userId     String
   bookingId  String?
   providerId String?
-  rating     Int    @constraint(rating >= 1 && rating <= 5)
+  rating     Int
   comment    String?
   
   createdAt DateTime @default(now())

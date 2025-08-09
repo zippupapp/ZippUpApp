@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@zippup/lib'
 
 // Emergency numbers by country
-const EMERGENCY_NUMBERS = {
-  'US': '911',
-  'UK': '999',
-  'EU': '112',
-  'AU': '000',
-  'CA': '911',
+const EMERGENCY_NUMBERS: Record<string, string> = {
+  US: '911',
+  UK: '999',
+  EU: '112',
+  AU: '000',
+  CA: '911',
   // Add more countries as needed
 }
 
