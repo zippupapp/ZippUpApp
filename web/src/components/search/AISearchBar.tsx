@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Search, Loader2, Mic } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { apiFetch } from '@/lib/api'
 
 interface SearchResult {
   services: Array<{
@@ -44,7 +45,7 @@ export default function AISearchBar() {
     if (query.length > 1) {
       const timer = setTimeout(async () => {
         try {
-          const response = await fetch('/api/search/suggestions', {
+          const response = await apiFetch('/api/search/suggestions', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ query })
@@ -107,7 +108,7 @@ export default function AISearchBar() {
     setShowSuggestions(false)
     
     try {
-      const response = await fetch('/api/search', {
+      const response = await apiFetch('/api/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query: searchQuery })

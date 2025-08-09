@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Phone, AlertTriangle, X } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { apiFetch } from '@/lib/api'
 
 interface EmergencyButtonProps {
   className?: string
@@ -36,7 +37,7 @@ export default function EmergencyButton({ className = '' }: EmergencyButtonProps
       }
 
       // Send emergency alert to backend
-      const response = await fetch('/api/emergency/alert', {
+      const response = await apiFetch('/api/emergency/alert', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

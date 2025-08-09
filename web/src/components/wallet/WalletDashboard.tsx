@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { apiFetch } from '@/lib/api'
 import { 
   CreditCard, 
   Plus, 
@@ -68,14 +69,14 @@ function WalletContent({ userId }: WalletDashboardProps) {
       setLoading(true)
       
       // Fetch wallet info
-      const walletResponse = await fetch(`/api/wallet/${userId}`)
+      const walletResponse = await apiFetch(`/api/wallet/${userId}`)
       if (walletResponse.ok) {
         const walletData = await walletResponse.json()
         setWallet(walletData)
       }
 
       // Fetch transactions
-      const transactionsResponse = await fetch(`/api/wallet/${userId}/transactions`)
+      const transactionsResponse = await apiFetch(`/api/wallet/${userId}/transactions`)
       if (transactionsResponse.ok) {
         const transactionsData = await transactionsResponse.json()
         setTransactions(transactionsData)
@@ -102,7 +103,7 @@ function WalletContent({ userId }: WalletDashboardProps) {
 
     try {
       // Create payment intent
-      const response = await fetch('/api/payments/create-intent', {
+      const response = await apiFetch('/api/payments/create-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
