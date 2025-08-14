@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "name": "zippup-platform",
   "builds": [
     {
       "src": "web/package.json",
@@ -13,23 +14,51 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/web/$1"
+      "dest": "/web/src/app/$1"
     }
   ],
   "env": {
+    "NODE_ENV": "production",
     "DATABASE_URL": "@database-url",
     "JWT_SECRET": "@jwt-secret",
+    "NEXTAUTH_SECRET": "@nextauth-secret",
+    "STRIPE_SECRET_KEY": "@stripe-secret-key",
+    "STRIPE_WEBHOOK_SECRET": "@stripe-webhook-secret",
+    "GOOGLE_MAPS_API_KEY": "@google-maps-api-key",
     "TWILIO_ACCOUNT_SID": "@twilio-account-sid",
     "TWILIO_AUTH_TOKEN": "@twilio-auth-token",
-    "STRIPE_SECRET_KEY": "@stripe-secret-key",
-    "OPENAI_API_KEY": "@openai-api-key",
-    "GOOGLE_MAPS_API_KEY": "@google-maps-api-key"
+    "OPENAI_API_KEY": "@openai-api-key"
   },
   "functions": {
     "web/src/app/api/**/*.ts": {
-      "runtime": "nodejs18.x"
+      "maxDuration": 30
     }
   },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/web/src/app/api/$1"
+    }
+  ],
   "crons": [
     {
       "path": "/api/cron/cleanup-expired-alerts",
